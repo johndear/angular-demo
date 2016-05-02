@@ -1,0 +1,147 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>WEB安全颜色列表-站长工具</title>
+  <style type="text/css">
+    body {background: #ecf0f1;color: #7f8c8d;font-family: Georgia,Cambria,"Times New Roman",Times,serif;}
+    ::selection {background: rgba(231,105,105,.7);}
+    .ng-cloak{display:none;}
+    .badge {
+      display: inline-block;
+      min-width: 10px;
+      padding: 3px 7px;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1;
+      color: #fff;
+      text-align: center;
+      white-space: nowrap;
+      vertical-align: text-top;
+      background-color: #777;
+      border-radius: 10px;
+    }
+    .main-container {
+      width: 1010px;
+      margin: 0 auto;
+    }
+    .main-container h1 {text-align: center}
+    .main-container ul {list-style: none}
+    .main-container ul li {
+      display: inline-block;
+      margin: 2px;
+    }
+
+    .flip {
+      width: 95px;
+      height: 90px;
+      margin: 10px;
+      float: left;
+      position: relative;
+      perspective: 1000px;
+    }
+    .flip div {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      left: 0;
+      top: 0;
+      transition: all 1s ease;
+      transform-style: preserve-3d;
+      backface-visibility: hidden;
+      box-shadow: 2px 2px 20px rgba(0,0,0,.5);
+      border-top-left-radius: 10px;
+      border-bottom-right-radius: 26px;
+    }
+    .flip div.front {
+      z-index: 1;
+      text-align: center;
+      line-height: 60px;
+    }
+    .flip div:before {
+      content:attr(data-text);
+      width:100%;
+      height:30px;
+      position:absolute;
+      left:0;
+      bottom:0;
+      line-height:30px;
+      text-align:center;
+      color:#fff;
+      background-color:rgba(0,0,0,.3);
+    }
+    .flip div.back {
+      z-index: 2;
+      text-align: center;
+      line-height: 60px;
+    }
+    .flip:hover div.front {
+      z-index: 2;
+    }
+    .flip:hover div.back {
+      z-index: 1;
+    }
+    .Y div.back {
+      transform:rotateY(180deg);
+    }
+    .Y:hover div.front {
+      transform:rotateY(180deg);
+    }
+    .Y:hover div.back {
+      transform:rotateY(0deg);
+    }
+    .X div.back {
+      transform:rotateX(180deg);
+    }
+    .X:hover div.front {
+      transform:rotateX(180deg);
+    }
+    .X:hover div.back {
+      transform:rotateX(0deg);
+    }
+  </style>
+</head>
+<body>
+  <div class="main-container" ng-controller="MainCtrl">
+    <h1>WEB安全颜色列表 <span class="badge" ng-bind="colorList.length"></span></h1>
+    <ul>
+      <li ng-repeat="v in colorList">
+        <div class="flip ng-cloak" ng-class="{true: 'X', false: 'Y'}[$index >= 40 && $index % 2 == 0]">
+          <div class="front" data-text="{{ v }}" style="background: {{ v }}"></div>
+          <div class="back" data-text="{{ ($index + 1) + v }}">
+            <a ng-href="color.html{{ v }}" ng-bind="v" style="color: {{ v }}"></a>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <script type="text/javascript" src="http://apps.bdimg.com/libs/angular.js/1.5.0-beta.0/angular.js"></script>
+  <script type="text/javascript">
+    var colorPanel = function() {
+      var colorList = [];
+      var n = 0;
+      // var hex = ['FF', 'CC', '99', '66', '33', '00'];
+      var hex = ['00', '33', '66', '99', 'CC', 'FF'];
+      var hexLen = hex.length;
+      for (var i = 0; i < hexLen; i++) {
+        for (var j = 0; j < hexLen; j++) {
+          for (var k = 0; k < hexLen; k++) {
+            var color = hex[j] + hex[k] + hex[i];
+            colorList.push('#' + color);
+            n++;
+          }
+        }
+      }
+      return colorList;
+    };
+
+    var app = angular.module('happyApp', []);
+    app.controller('MainCtrl', ['$scope', function($scope) {
+      $scope.colorList = colorPanel();
+    }]);
+    angular.bootstrap(document, ['happyApp']);
+  </script>
+</body>
+</html>

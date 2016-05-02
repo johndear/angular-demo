@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<link rel="stylesheet" href="css/style.css" />
+		<link type="text/css" rel="stylesheet" href="css/bootstrap.min.css"/>
+		<script type="text/javascript" src="js/jquery-1.8.3.min.js" ></script>
+		<script type="text/javascript" src="js/angular.min.js"></script>
+		<style type="text/css">
+			.align-top {vertical-align: top}
+			.tags-container .tag-btn {
+				margin: 5px 10px;
+			}
+		</style>
+	</head>
+
+	<body ng-controller="MainCtrl">
+		<div class="container tags-container">
+
+			<div class="jumbotron">
+				<h1>AngularJS在线教程 标签云 <span class="badge align-top" ng-bind="tagList.length"></span></h1>
+				<p>...</p>
+				<p>
+					<a class="btn btn-lg tag-btn ng-class:getRandomBgColor();" ng-href="" ng-repeat="v in tagList" ng-bind="v.tag"></a>
+				</p>
+			</div>
+		</div>
+	</body>
+
+	<script>
+		var myApp = angular.module('myApp', []);
+		myApp.controller('MainCtrl',['$scope', function($scope) {
+		    $scope.tagList = [
+		        {tag: '404公益活动', url: '../../baby'},
+		        {tag: '电影票房', url: '../../movie/index.html'},
+		        {tag: 'limitTo分页效果', url: 'app-pagination.html'},
+		        {tag: '定时器', url: 'app-timer.html'},
+		        {tag: '表达式', url: 'app-expression.html'},
+		        {tag: '日期格式化', url: 'app-date-format.html'},
+		        {tag: '表单验证', url: 'app-form.html'},
+		        {tag: 'Tab特效', url: 'app-tabs.html'},
+		        {tag: '$on、$emit和$broadcast', url: 'app-broadcast.html'},
+		        {tag: 'TAB控制', url: 'app-tab.html'},
+		        {tag: '价值万元免费书籍', url: '../books'},
+		        {tag: 'angular.forEach', url: '../api/each.html'},
+		        {tag: '数据循环', url: '../tutorial/ng-repeat.html'},
+		        {tag: '数据嵌套循环', url: '../tutorial/ng-nested-repeat.html'},
+		        {tag: 'Google镜像', url: '../../tools/google.html'},
+		        {tag: 'Tools工具箱', url: '../../tools'},
+		        {tag: 'url编码解码', url: '../../tools/url.html'}
+		    ];
+		 
+		    $scope.getRandomBgColor = function() {
+		        var btnColors = ['btn-primary', 'btn-success', 'btn-info', 'btn-warning', 'btn-danger'];
+		        console.log(Math.floor(Math.random() * (btnColors.length)) + 0);
+		        var random = Math.floor(Math.random() * (btnColors.length)) + 0;
+		        return btnColors[random];
+		    };
+		}]);
+	</script>
+
+</html>

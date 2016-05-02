@@ -1,0 +1,280 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>WEB标准颜色-站长工具</title>
+  <style type="text/css">
+    body {background: #ecf0f1;color: #7f8c8d;font-family: Georgia,Cambria,"Times New Roman",Times,serif;}
+    ::selection {background: rgba(231,105,105,.7);}
+    .ng-cloak{display:none;}
+    .badge {
+      display: inline-block;
+      min-width: 10px;
+      padding: 3px 7px;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1;
+      color: #fff;
+      text-align: center;
+      white-space: nowrap;
+      vertical-align: text-top;
+      background-color: #777;
+      border-radius: 10px;
+    }
+    .main-container {
+      width: 1010px;
+      margin: 0 auto;
+    }
+    .main-container h1 {text-align: center}
+    .main-container ul {list-style: none}
+    .main-container ul li {
+      display: inline-block;
+      margin: 2px;
+    }
+
+    .flip {
+      width: 130px;
+      height: 100px;
+      margin: 2px;
+      float: left;
+      position: relative;
+      perspective: 1000px;
+    }
+    .flip div {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      left: 0;
+      top: 0;
+      transition: all 1s ease;
+      transform-style: preserve-3d;
+      backface-visibility: hidden;
+      box-shadow: 2px 2px 20px rgba(0,0,0,.5);
+      border-top-left-radius: 10px;
+      border-bottom-right-radius: 26px;
+      white-space: nowrap;
+      font-size: 14px;
+    }
+    .flip div a {
+      background-color: rgba(0,0,0,.3);
+    }
+    .flip div.front {
+      z-index: 1;
+      text-align: center;
+      line-height: 60px;
+    }
+    .flip div:before {
+      content:attr(data-text);
+      width:100%;
+      height:30px;
+      position:absolute;
+      left:0;
+      bottom:0;
+      line-height:30px;
+      text-align:center;
+      color:#fff;
+      background-color:rgba(0,0,0,.3);
+    }
+    .flip div.back {
+      z-index: 2;
+      text-align: center;
+      line-height: 60px;
+    }
+    .flip:hover div.front {
+      z-index: 2;
+    }
+    .flip:hover div.back {
+      z-index: 1;
+    }
+    .Y div.back {
+      transform:rotateY(180deg);
+    }
+    .Y:hover div.front {
+      transform:rotateY(180deg);
+    }
+    .Y:hover div.back {
+      transform:rotateY(0deg);
+    }
+    .X div.back {
+      transform:rotateX(180deg);
+    }
+    .X:hover div.front {
+      transform:rotateX(180deg);
+    }
+    .X:hover div.back {
+      transform:rotateX(0deg);
+    }
+  </style>
+</head>
+<body>
+  <div class="main-container" ng-controller="MainCtrl">
+    <h1>WEB标准颜色列表 <span class="badge" ng-bind="colorList.length"></span></h1>
+    <ul>
+      <li ng-repeat="v in colorList" title="{{ v.name + '\n' + v.cnName }}">
+        <div class="flip ng-cloak" ng-class="{true: 'X', false: 'Y'}[$index >= 40 && $index % 2 == 0]">
+          <div class="front" data-text="{{ v.cnName }}" style="background: {{ v.sixteenHex }}"></div>
+          <div class="back" data-text="{{ v.cnName }}">
+            <a ng-href="color.html{{ v.sixteenHex }}" ng-bind="v.name" style="color: {{ v.sixteenHex }}"></a>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <script type="text/javascript" src="http://apps.bdimg.com/libs/angular.js/1.5.0-beta.0/angular.js"></script>
+  <script type="text/javascript">
+    var colorPanel = function() {
+      var colorList = [
+        {name:'LavenderBlush',cnName:'淡紫红',sixteenHex:'#FFF0F5',tenHex:'255,240,245'},
+        {name:'LightPink',cnName:'浅粉红',sixteenHex:'#FFB6C1',tenHex:'255,182,193'},
+        {name:'Pink',cnName:'粉红',sixteenHex:'#FFC0CB',tenHex:'255,192,203'},
+        {name:'HotPink',cnName:'热情的粉红',sixteenHex:'#FF69B4',tenHex:'255,105,180'},
+        {name:'PaleVioletRed',cnName:'弱紫罗兰红',sixteenHex:'#DB7093',tenHex:'219,112,147'},
+        {name:'DeepPink',cnName:'深粉红',sixteenHex:'#FF1493',tenHex:'255,20,147'},
+        {name:'MediumVioletRed',cnName:'中紫罗兰红',sixteenHex:'#C71585',tenHex:'199,21,133'},
+        {name:'Crimson',cnName:'深红(猩红)',sixteenHex:'#DC143C',tenHex:'220,20,60'},
+        {name:'Lavender',cnName:'淡紫色(熏衣草淡紫)',sixteenHex:'#E6E6FA',tenHex:'230,230,250'},
+        {name:'Thistle',cnName:'蓟色',sixteenHex:'#D8BFD8',tenHex:'216,191,216'},
+        {name:'Plum',cnName:'洋李色(李子紫)',sixteenHex:'#DDA0DD',tenHex:'221,160,221'},
+        {name:'Violet',cnName:'紫罗兰',sixteenHex:'#EE82EE',tenHex:'238,130,238'},
+        {name:'Orchid',cnName:'暗紫色(兰花紫)',sixteenHex:'#DA70D6',tenHex:'218,112,214'},
+        {name:'Magenta',cnName:'洋红(玫瑰红)',sixteenHex:'#FF00FF',tenHex:'255,0,255'},
+        {name:'Fuchsia',cnName:'紫红(灯笼海棠)',sixteenHex:'#FF00FF',tenHex:'255,0,255'},
+        {name:'MediumOrchid',cnName:'中兰花紫',sixteenHex:'#BA55D3',tenHex:'186,85,211'},
+        {name:'MediumPurple',cnName:'中紫色',sixteenHex:'#9370DB',tenHex:'147,112,219'},
+        {name:'BlueViolet',cnName:'蓝紫罗兰',sixteenHex:'#8A2BE2',tenHex:'138,43,226'},
+        {name:'DarkViolet',cnName:'暗紫罗兰',sixteenHex:'#9400D3',tenHex:'148,0,211'},
+        {name:'DarkOrchid',cnName:'暗兰花紫',sixteenHex:'#9932CC',tenHex:'153,50,204'},
+        {name:'DarkMagenta',cnName:'深洋红',sixteenHex:'#8B008B',tenHex:'139,0,139'},
+        {name:'Purple',cnName:'紫色',sixteenHex:'#800080',tenHex:'128,0,128'},
+        {name:'Indigo',cnName:'靛青/紫兰色',sixteenHex:'#4B0082',tenHex:'75,0,130'},
+        {name:'AliceBlue',cnName:'爱丽丝蓝',sixteenHex:'#F0F8FF',tenHex:'240,248,255'},
+        {name:'Azure',cnName:'蔚蓝色',sixteenHex:'#F0FFFF',tenHex:'240,255,255'},
+        {name:'LightBlue',cnName:'亮蓝',sixteenHex:'#ADD8E6',tenHex:'173,216,230'},
+        {name:'PowderBlue',cnName:'粉蓝色(火药青)',sixteenHex:'#B0E0E6',tenHex:'176,224,230'},
+        {name:'LightSkyBlue',cnName:'亮天蓝色',sixteenHex:'#87CEFA',tenHex:'135,206,250'},
+        {name:'SkyBlue',cnName:'天蓝色',sixteenHex:'#87CEEB',tenHex:'135,206,235'},
+        {name:'DeepSkyBlue',cnName:'深天蓝',sixteenHex:'#00BFFF',tenHex:'0,191,255'},
+        {name:'CornflowerBlue',cnName:'矢车菊蓝',sixteenHex:'#6495ED',tenHex:'100,149,237'},
+        {name:'DodgerBlue',cnName:'闪兰色(道奇蓝)',sixteenHex:'#1E90FF',tenHex:'30,144,255'},
+        {name:'RoyalBlue',cnName:'皇家蓝/宝蓝',sixteenHex:'#4169E1',tenHex:'65,105,225'},
+        {name:'LightSteelBlue',cnName:'亮钢蓝',sixteenHex:'#B0C4DE',tenHex:'176,196,222'},
+        {name:'CadetBlue',cnName:'军兰色(军服蓝)',sixteenHex:'#5F9EA0',tenHex:'95,158,160'},
+        {name:'SteelBlue',cnName:'钢蓝/铁青',sixteenHex:'#4682B4',tenHex:'70,130,180'},
+        {name:'LightSlateGray',cnName:'亮蓝灰(亮石板灰)',sixteenHex:'#778899',tenHex:'119,136,153'},
+        {name:'SlateGray',cnName:'灰石色(石板灰)',sixteenHex:'#708090',tenHex:'112,128,144'},
+        {name:'MediumSlateBlue',cnName:'中暗蓝色(中板岩蓝)',sixteenHex:'#7B68EE',tenHex:'123,104,238'},
+        {name:'SlateBlue',cnName:'石蓝色(板岩蓝)',sixteenHex:'#6A5ACD',tenHex:'106,90,205'},
+        {name:'DarkSlateBlue',cnName:'暗灰蓝色(暗板岩蓝)',sixteenHex:'#483D8B',tenHex:'72,61,139'},
+        {name:'Blue',cnName:'纯蓝',sixteenHex:'#0000FF',tenHex:'0,0,255'},
+        {name:'MediumBlue',cnName:'中蓝色',sixteenHex:'#0000CD',tenHex:'0,0,205'},
+        {name:'MidnightBlue',cnName:'午夜蓝',sixteenHex:'#191970',tenHex:'25,25,112'},
+        {name:'DarkBlue',cnName:'暗蓝色',sixteenHex:'#00008B',tenHex:'0,0,139'},
+        {name:'Navy',cnName:'海军蓝',sixteenHex:'#000080',tenHex:'0,0,128'},
+        {name:'LightCyan',cnName:'淡青色',sixteenHex:'#E0FFFF',tenHex:'224,255,255'},
+        {name:'Cyan',cnName:'青色',sixteenHex:'#00FFFF',tenHex:'0,255,255'},
+        {name:'DarkSlateGray',cnName:'暗瓦灰色(暗石板灰)',sixteenHex:'#2F4F4F',tenHex:'47,79,79'},
+        {name:'DarkCyan',cnName:'暗青色',sixteenHex:'#008B8B',tenHex:'0,139,139'},
+        {name:'Teal',cnName:'水鸭色',sixteenHex:'#008080',tenHex:'0,128,128'},
+        {name:'PaleTurquoise',cnName:'弱绿宝石',sixteenHex:'#AFEEEE',tenHex:'175,238,238'},
+        {name:'Aqua',cnName:'浅绿色(水色)',sixteenHex:'#00FFFF',tenHex:'0,255,255'},
+        {name:'Aquamarine',cnName:'宝石碧绿',sixteenHex:'#7FFFD4',tenHex:'127,255,212'},
+        {name:'MediumAquamarine',cnName:'中宝石碧绿',sixteenHex:'#66CDAA',tenHex:'102,205,170'},
+        {name:'Turquoise',cnName:'绿宝石',sixteenHex:'#40E0D0',tenHex:'64,224,208'},
+        {name:'MediumTurquoise',cnName:'中绿宝石',sixteenHex:'#48D1CC',tenHex:'72,209,204'},
+        {name:'DarkTurquoise',cnName:'暗绿宝石',sixteenHex:'#00CED1',tenHex:'0,206,209'},
+        {name:'LightGreen',cnName:'淡绿色',sixteenHex:'#90EE90',tenHex:'144,238,144'},
+        {name:'PaleGreen',cnName:'弱绿色',sixteenHex:'#98FB98',tenHex:'152,251,152'},
+        {name:'MediumSpringGreen',cnName:'中春绿色',sixteenHex:'#00FA9A',tenHex:'0,250,154'},
+        {name:'SpringGreen',cnName:'春绿色',sixteenHex:'#00FF7F',tenHex:'0,255,127'},
+        {name:'LightSeaGreen',cnName:'浅海洋绿',sixteenHex:'#20B2AA',tenHex:'32,178,170'},
+        {name:'SeaGreen',cnName:'海洋绿',sixteenHex:'#2E8B57',tenHex:'46,139,87'},
+        {name:'MediumSeaGreen',cnName:'中海洋绿',sixteenHex:'#3CB371',tenHex:'60,179,113'},
+        {name:'DarkSeaGreen',cnName:'暗海洋绿',sixteenHex:'#8FBC8F',tenHex:'143,188,143'},
+        {name:'ForestGreen',cnName:'森林绿',sixteenHex:'#228B22',tenHex:'34,139,34'},
+        {name:'Green',cnName:'纯绿',sixteenHex:'#008000',tenHex:'0,128,0'},
+        {name:'DarkGreen',cnName:'暗绿色',sixteenHex:'#006400',tenHex:'0,100,0'},
+        {name:'Lime',cnName:'闪光绿',sixteenHex:'#00FF00',tenHex:'0,255,0'},
+        {name:'LimeGreen',cnName:'闪光深绿',sixteenHex:'#32CD32',tenHex:'50,205,50'},
+        {name:'LawnGreen',cnName:'草绿色(草坪绿)',sixteenHex:'#7CFC00',tenHex:'124,252,0'},
+        {name:'Chartreuse',cnName:'黄绿色(查特酒绿)',sixteenHex:'#7FFF00',tenHex:'127,255,0'},
+        {name:'GreenYellow',cnName:'绿黄色',sixteenHex:'#ADFF2F',tenHex:'173,255,47'},
+        {name:'YellowGreen',cnName:'黄绿色',sixteenHex:'#9ACD32',tenHex:'154,205,50'},
+        {name:'LightYellow',cnName:'浅黄色',sixteenHex:'#FFFFE0',tenHex:'255,255,224'},
+        {name:'Cornsilk',cnName:'玉米丝色',sixteenHex:'#FFF8DC',tenHex:'255,248,220'},
+        {name:'Beige',cnName:'米色/灰棕色',sixteenHex:'#F5F5DC',tenHex:'245,245,220'},
+        {name:'LightGoldenrodYellow',cnName:'亮菊黄',sixteenHex:'#FAFAD2',tenHex:'250,250,210'},
+        {name:'OldLace',cnName:'老花色(旧蕾丝)',sixteenHex:'#FDF5E6',tenHex:'253,245,230'},
+        {name:'Linen',cnName:'亚麻布',sixteenHex:'#FAF0E6',tenHex:'250,240,230'},
+        {name:'LemonChiffon',cnName:'柠檬绸',sixteenHex:'#FFFACD',tenHex:'255,250,205'},
+        {name:'PapayaWhip',cnName:'番木色(番木瓜)',sixteenHex:'#FFEFD5',tenHex:'255,239,213'},
+        {name:'BlanchedAlmond',cnName:'白杏色',sixteenHex:'#FFEBCD',tenHex:'255,235,205'},
+        {name:'Bisque',cnName:'陶坯黄',sixteenHex:'#FFE4C4',tenHex:'255,228,196'},
+        {name:'Wheat',cnName:'浅黄色(小麦色)',sixteenHex:'#F5DEB3',tenHex:'245,222,179'},
+        {name:'Moccasin',cnName:'鹿皮色(鹿皮靴)',sixteenHex:'#FFE4B5',tenHex:'255,228,181'},
+        {name:'NavajoWhite',cnName:'纳瓦白(土著白)',sixteenHex:'#FFDEAD',tenHex:'255,222,173'},
+        {name:'PaleGoldenrod',cnName:'灰菊黄(苍麒麟色)',sixteenHex:'#EEE8AA',tenHex:'238,232,170'},
+        {name:'Khaki',cnName:'黄褐色(卡叽布)',sixteenHex:'#F0E68C',tenHex:'240,230,140'},
+        {name:'DarkKhaki',cnName:'暗黄褐色(深卡叽布)',sixteenHex:'#BDB76B',tenHex:'189,183,107'},
+        {name:'Yellow',cnName:'纯黄',sixteenHex:'#FFFF00',tenHex:'255,255,0'},
+        {name:'Gold',cnName:'金色',sixteenHex:'#FFD700',tenHex:'255,215,0'},
+        {name:'Goldenrod',cnName:'金菊黄',sixteenHex:'#DAA520',tenHex:'218,165,32'},
+        {name:'DarkGoldenrod',cnName:'暗金菊黄',sixteenHex:'#B8860B',tenHex:'184,134,11'},
+        {name:'Olive',cnName:'橄榄',sixteenHex:'#808000',tenHex:'128,128,0'},
+        {name:'OliveDrab',cnName:'橄榄褐色',sixteenHex:'#6B8E23',tenHex:'107,142,35'},
+        {name:'DarkOliveGreen',cnName:'暗橄榄绿',sixteenHex:'#556B2F',tenHex:'85,107,47'},
+        {name:'Orange',cnName:'橙色',sixteenHex:'#FFA500',tenHex:'255,165,0'},
+        {name:'Tan',cnName:'茶色',sixteenHex:'#D2B48C',tenHex:'210,180,140'},
+        {name:'BurlyWood',cnName:'硬木色',sixteenHex:'#DEB887',tenHex:'222,184,135'},
+        {name:'SandyBrown',cnName:'沙棕色',sixteenHex:'#F4A460',tenHex:'244,164,96'},
+        {name:'Chocolate',cnName:'巧克力色',sixteenHex:'#D2691E',tenHex:'210,105,30'},
+        {name:'Peru',cnName:'秘鲁色',sixteenHex:'#CD853F',tenHex:'205,133,63'},
+        {name:'SaddleBrown',cnName:'重褐色(马鞍棕色)',sixteenHex:'#8B4513',tenHex:'139,69,19'},
+        {name:'Sienna',cnName:'黄土赭色',sixteenHex:'#A0522D',tenHex:'160,82,45'},
+        {name:'MistyRose',cnName:'浅玫瑰色(薄雾玫瑰)',sixteenHex:'#FFE4E1',tenHex:'255,228,225'},
+        {name:'PeachPuff',cnName:'桃肉色',sixteenHex:'#FFDAB9',tenHex:'255,218,185'},
+        {name:'LightSalmon',cnName:'浅鲑鱼肉色',sixteenHex:'#FFA07A',tenHex:'255,160,122'},
+        {name:'Coral',cnName:'珊瑚',sixteenHex:'#FF7F50',tenHex:'255,127,80'},
+        {name:'DarkOrange',cnName:'深橙色',sixteenHex:'#FF8C00',tenHex:'255,140,0'},
+        {name:'LightCoral',cnName:'淡珊瑚色',sixteenHex:'#F08080',tenHex:'240,128,128'},
+        {name:'RosyBrown',cnName:'玫瑰棕色',sixteenHex:'#BC8F8F',tenHex:'188,143,143'},
+        {name:'IndianRed',cnName:'印度红',sixteenHex:'#CD5C5C',tenHex:'205,92,92'},
+        {name:'Salmon',cnName:'鲜肉/鲑鱼色',sixteenHex:'#FA8072',tenHex:'250,128,114'},
+        {name:'DarkSalmon',cnName:'深鲜肉/鲑鱼色',sixteenHex:'#E9967A',tenHex:'233,150,122'},
+        {name:'Tomato',cnName:'番茄红',sixteenHex:'#FF6347',tenHex:'255,99,71'},
+        {name:'OrangeRed',cnName:'橙红色',sixteenHex:'#FF4500',tenHex:'255,69,0'},
+        {name:'Red',cnName:'纯红',sixteenHex:'#FF0000',tenHex:'255,0,0'},
+        {name:'Brown',cnName:'棕色',sixteenHex:'#A52A2A',tenHex:'165,42,42'},
+        {name:'FireBrick',cnName:'火砖色(耐火砖)',sixteenHex:'#B22222',tenHex:'178,34,34'},
+        {name:'DarkRed',cnName:'深红色',sixteenHex:'#8B0000',tenHex:'139,0,0'},
+        {name:'Maroon',cnName:'栗色',sixteenHex:'#800000',tenHex:'128,0,0'},
+        {name:'White',cnName:'纯白',sixteenHex:'#FFFFFF',tenHex:'255,255,255'},
+        {name:'Snow',cnName:'雪白色',sixteenHex:'#FFFAFA',tenHex:'255,250,250'},
+        {name:'FloralWhite',cnName:'花的白色',sixteenHex:'#FFFAF0',tenHex:'255,250,240'},
+        {name:'Ivory',cnName:'象牙色',sixteenHex:'#FFFFF0',tenHex:'255,255,240'},
+        {name:'Seashell',cnName:'海贝壳',sixteenHex:'#FFF5EE',tenHex:'255,245,238'},
+        {name:'MintCream',cnName:'薄荷奶油',sixteenHex:'#F5FFFA',tenHex:'245,255,250'},
+        {name:'GhostWhite',cnName:'幽灵白',sixteenHex:'#F8F8FF',tenHex:'248,248,255'},
+        {name:'Honeydew',cnName:'蜜色(蜜瓜色)',sixteenHex:'#F0FFF0',tenHex:'240,255,240'},
+        {name:'WhiteSmoke',cnName:'白烟',sixteenHex:'#F5F5F5',tenHex:'245,245,245'},
+        {name:'AntiqueWhite',cnName:'古董白',sixteenHex:'#FAEBD7',tenHex:'250,235,215'},
+        {name:'Gainsboro',cnName:'淡灰色(庚斯博罗灰)',sixteenHex:'#DCDCDC',tenHex:'220,220,220'},
+        {name:'LightGrey',cnName:'浅灰色',sixteenHex:'#D3D3D3',tenHex:'211,211,211'},
+        {name:'Silver',cnName:'银灰色',sixteenHex:'#C0C0C0',tenHex:'192,192,192'},
+        {name:'DarkGray',cnName:'深灰色',sixteenHex:'#A9A9A9',tenHex:'169,169,169'},
+        {name:'Gray',cnName:'灰色',sixteenHex:'#808080',tenHex:'128,128,128'},
+        {name:'DimGray',cnName:'暗淡的灰色',sixteenHex:'#696969',tenHex:'105,105,105'},
+        {name:'Black',cnName:'纯黑',sixteenHex:'#000000',tenHex:'0,0,0'}
+      ];
+      return colorList;
+    };
+
+    var app = angular.module('happyApp', []);
+    app.controller('MainCtrl', ['$scope', function($scope) {
+      $scope.colorList = colorPanel();
+    }]);
+    angular.bootstrap(document, ['happyApp']);
+  </script>
+</body>
+</html>

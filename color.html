@@ -1,0 +1,188 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>RGB颜色和十六位颜色互转-站长工具</title>
+  <style type="text/css">
+    body {background: #ecf0f1;color: #7f8c8d;}
+    .main-container {
+      width: 1010px;
+      margin: 0 auto;
+    }
+    .main-container .rgb-area {
+      position: relative;
+      margin-bottom: 30px;
+    }
+    .main-container .rgb-area .rgb-input {
+      width: 66px;
+      height: 30px;
+      font-size: 20px;
+      text-align: center;
+    }
+    .main-container .result-area {
+      position: absolute;
+      top: 40%;
+      left: 50%;
+    }
+    .main-container .result-area .result-bg {
+      display: inline-block;
+      width: 120px;
+      height: 50px;
+      vertical-align: middle;
+      margin-right: 16px;
+    }
+    .main-container .result-area .result-text {
+      font-size: 20px;
+      margin: 12px;
+      line-height: 50px;
+      color: red;
+    }
+    .main-container .change-btn {
+      width: 86px;
+      height: 37px;
+      vertical-align: bottom;
+      font-size: 18px;
+      margin-left: 12px;
+    }
+    .main-container .sixteen-area {
+      position: relative;
+      margin-top: 40px;
+      margin-bottom: 30px;
+    }
+    .main-container .sixteen-area .sixteen-input {
+      width: 222px;
+      height: 30px;
+      font-size: 20px;
+      text-align: center;
+    }
+    .main-container .sixteen-area .sixteen-input.choose-color {
+      width: 96px;
+      height: 32px;
+      vertical-align: bottom;
+    }
+    .main-container .relative-app {
+      margin: 20px 0;
+      text-align: center;
+      font-family: Georgia,Cambria,"Times New Roman",Times,serif;
+    }
+    .main-container ul {
+      list-style: none;
+    }
+    .main-container ul li {
+      display: inline-block;
+      margin: 2px;
+    }
+    .main-container ul li a {
+      color: #07a;
+    }
+  </style>
+</head>
+<body>
+  <div class="main-container">
+    <h1>RGB颜色和十六位颜色互转工具</h1>
+    <div class="rgb-area">
+      <h2>RGB颜色转化成十六位颜色代码：<span>RGB - (255,255,255)</span></h2>
+      <input type="number" class="rgb-input" maxlength="3" />
+      <input type="number" class="rgb-input" maxlength="3" />
+      <input type="number" class="rgb-input" maxlength="3" />
+      <input type="button" value="转 换" class="change-btn" onclick="RGB2Sixteen()" />
+      <input type="button" value="三同色" class="change-btn" onclick="makeSameColor()" />
+      <div class="result-area">
+        <span class="result-bg" id="rgbBg"></span>
+        <span class="result-text" id="rgbText"></span>
+        <span class="result-text" id="rgbUpperText"></span>
+      </div>
+    </div>
+    <hr/>
+    <div class="sixteen-area">
+      <h2>十六位颜色代码转化成RGB颜色：<span>HEX - #1234EF</span></h2>
+      <input type="color" class="sixteen-input choose-color" onchange="syncColor(this)" />
+      <input type="text" class="sixteen-input" maxlength="7" onchange="syncColor(this)" />
+      <input type="button" value="转 换" class="change-btn" onclick="Sixteen2RGB()" />
+      <div class="result-area">
+        <span class="result-bg" id="sixteenBg"></span>
+        <span class="result-text" id="sixteenText"></span>
+      </div>
+    </div>
+    <hr/>
+    <div class="relative-app">
+      <ul>
+        <li><a href="color-protect.html">WEB安全色</a></li>
+        <li><a href="color-standard.html">WEB标准色</a></li>
+        <li><a href="web-tool.html">WEB工具箱</a></li>
+        <li><a href="google.html">Google搜索引擎</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <script src="js/jquery-1.8.3.min.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    function makeSameColor() {
+      $('.rgb-input').val($('.rgb-input:first').val());
+      RGB2Sixteen();
+    }
+    function syncColor(obj) {
+      if (obj.value) {
+        $('.sixteen-input').val(obj.value);
+      }
+    }
+    function RGB2Sixteen() {
+      var hexcode = '#';
+      var isPass = true;
+      var rgbBgObj = $('#rgbBg');
+      var rgbTextObj = $('#rgbText');
+      var rgbUpperTextObj = $('#rgbUpperText');
+
+      rgbBgObj.css('background-color', 'transparent');
+      rgbTextObj.text('');
+      rgbUpperTextObj.text('');
+
+      $('.rgb-input').each(function() {
+        var v = $(this).val() || 0;
+        if (v < 0 || v > 255) {
+          rgbTextObj.text('数字在0~255之间！');
+          isPass = false;
+        }
+        var c = '0123456789abcdef';
+        var a = v % 16;
+        var b = c.substr(a, 1);
+        a = (v - a) / 16;
+        hexcode += c.substr(a, 1) + b;
+      });
+
+      if (isPass) {
+        rgbBgObj.css('background-color', hexcode);
+        rgbTextObj.text(hexcode);
+        rgbUpperTextObj.text(hexcode.toUpperCase());
+      }
+    }
+    function Sixteen2RGB() {
+      var a =  $('.sixteen-input').val().trim();
+      if (a.substr(0, 1) == '#') {
+        a = a.substring(1);
+      }
+      if (a.length != 6){
+        $('#sixteenText').html('请输入正确的颜色编码！');
+        return false;
+      }
+      $('#sixteenBg').css('background-color', '#' + a);
+      a = a.toLowerCase();
+      b = new Array();
+      for (var x = 0; x < 3; x++) {
+        b[0] = a.substr(x * 2, 2);
+        b[3] = '0123456789abcdef';
+        b[1] = b[0].substr(0, 1);
+        b[2] = b[0].substr(1, 1);
+        b[20 + x] = b[3].indexOf(b[1]) * 16 + b[3].indexOf(b[2])
+      }
+      $('#sixteenText').text('rgb(' + b[20] + ', ' + b[21] + ', ' + b[22] + ')');
+    }
+
+    if (location.hash) {
+      $('.sixteen-input').val(location.hash);
+      Sixteen2RGB();
+    }
+  </script>
+</body>
+</html>

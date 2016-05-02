@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html ng-app="ZippyModule">
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<script type="text/javascript" src="http://apps.bdimg.com/libs/angular.js/1.5.0-beta.0/angular.js"></script>
+		<script type="text/javascript" src="js/directive/zippy.js"></script>
+		<style type="text/css">
+		    .zippy {
+		      border: 1px solid black;
+		      display: inline-block;
+		      width: 250px;
+		    }
+		    .zippy.opened > .title:before { content: '▼ '; }
+		    .zippy.opened > .body { display: block; }
+		    .zippy.closed > .title:before { content: '► '; }
+		    .zippy.closed > .body { display: none; }
+		    .zippy > .title {
+		      background-color: black;
+		      color: white;
+		      padding: .1em .3em;
+		      cursor: pointer;
+		    }
+		    .zippy > .body {
+		      padding: .1em .3em;
+		    }
+		</style>
+	</head>
+	<body ng-controller="MyCtrl">
+		<div class="zippy" zippy-title="Details: {{title}}...">{{text}}</div>
+	</body>
+</html>

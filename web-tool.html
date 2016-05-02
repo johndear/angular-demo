@@ -1,0 +1,260 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>工具中心-站长工具</title>
+<script src="js/jquery-1.8.3.min.js" type="text/javascript"></script>
+<style type="text/css">
+body {
+	width: 99%;
+	background: #333;
+	font-family: 'Microsoft YaHei';
+}
+
+a{text-decoration:none;}
+/***************未访问、已访问、悬浮和活动链接*****************/
+a:link{color:#446DB2;}
+a:visited{color:#446DB2;}
+a:hover{color:#41C9C6;}
+a:active{color:#5BC4C2;}
+
+table{/*,tbody tr th,td*/
+	display: table;
+	overflow:hidden;
+	/*border:1px solid #d3d3d3;*/
+	background:#fefefe;
+	-moz-border-radius:10px; /* FF1+ */
+	-webkit-border-radius:10px; /* Saf3-4 */
+	border-radius:10px;
+	-moz-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+	-webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+	border-collapse: collapse;
+	box-shadow: 0 0 10px #5C96B6;
+}
+table caption{font-family: KaiTi_GB2312;color:#fff;}
+.main-container table tr th, td {border-bottom: 1px dashed black;-moz-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);-webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);}
+
+.main-container table{border-collapse: inherit;-moz-box-shadow: none;-webkit-box-shadow: none;}
+.main-container table caption{height: 38px;font-size: 30px;overflow: hidden;margin:15px;text-shadow: 0 1px 1px rgba(0,0,0,0.4);}
+.main-container table tbody tr td{
+	border:1px solid #d3d3d3;
+	-moz-border-radius:10px; /* FF1+ */
+	-webkit-border-radius:10px; /* Saf3-4 */
+	border-radius:10px;
+	-moz-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+	-webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+	border-collapse: collapse;
+}
+.main-container table tbody tr td > a,
+.main-container table tbody tr td > a img{
+	width: 256px;
+	height: 256px;
+	display: block;
+	-moz-border-radius:50px; /* FF1+ */
+	-webkit-border-radius:50px; /* Saf3-4 */
+	border-radius:50px;
+}
+.main-container table tbody tr td > a{
+	width: 256px;
+	height: 256px;
+	position: relative;
+	padding: 0px;
+	background: transparent;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px 4px 4px 4px;
+}
+.main-container table tbody tr td > a span{
+	position: absolute;
+	width: 256px;
+	height: 256px;
+	top: 0px;
+	left: 0px;
+	text-align: center;
+	line-height: 256px;
+	color: rgba(28, 102, 177, 0.8);
+	text-shadow: 0px 1px 1px rgba(255,255,255,0.6);
+	font-size: 32px;
+	opacity: 0;
+	filter: alpha(opacity=0); /* internet explorer */
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(opacity=0)"; /*IE8*/
+	background: rgb(241,210,194);
+	background: -moz-radial-gradient(center, ellipse cover, rgba(255,255,255,0.56) 0%, rgba(241,210,194,1) 100%);
+	background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,rgba(255,255,255,0.56)), color-stop(100%,rgba(241,210,194,1)));
+	background: -webkit-radial-gradient(center, ellipse cover, rgba(255,255,255,0.56) 0%,rgba(241,210,194,1) 100%);
+	background: -o-radial-gradient(center, ellipse cover, rgba(255,255,255,0.56) 0%,rgba(241,210,194,1) 100%);
+	background: -ms-radial-gradient(center, ellipse cover, rgba(255,255,255,0.56) 0%,rgba(241,210,194,1) 100%);
+	background: radial-gradient(center, ellipse cover, rgba(255,255,255,0.56) 0%,rgba(241,210,194,1) 100%);
+	-webkit-transition: opacity 0.3s linear;
+	-moz-transition: opacity 0.3s linear;
+	-o-transition: opacity 0.3s linear;
+	-ms-transition: opacity 0.3s linear;
+	transition: opacity 0.3s linear;
+	
+	-moz-border-radius:30px; /* FF1+ */
+	-webkit-border-radius:30px; /* Saf3-4 */
+	border-radius:30px;
+}
+.main-container table tbody tr td > a:hover span{
+	opacity: 1;
+	filter: alpha(opacity=99); /* internet explorer */
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(opacity=99)"; /*IE8*/
+}
+
+.etc-tools-div{
+	background: #1d1d1d;
+	-moz-border-radius:10px; /* FF1+ */
+	-webkit-border-radius:10px; /* Saf3-4 */
+	border-radius:10px;
+	-moz-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+	-webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+	padding: 0em 1.5em;
+	margin: 1em auto;
+}
+.etc-tools-div a{color:#bfe1f1;}
+.etc-tools-div a:hover{color:#41C9C6;}
+/* etcTools #5 http://demo.marcofolio.net/css_lists/ */
+.etc-tools-div ol { font-style:italic; font-family:Georgia, Times, serif; font-size:24px; color:#eee; }
+.etc-tools-div ol li { }
+.etc-tools-div ol li ol { list-style-image: url("img/nested.png"); padding:5px 0 5px 18px; font-size:15px; }
+.etc-tools-div ol li ol li { color:#bfe1f1; height:15px; margin-top:3px; margin-left:10px; }
+
+#etcTools{position: absolute;width: 200px;top: 65px;}
+#etcGeneratorTools{position: absolute;width: 200px;top: 65px;right:0;margin-right: 8px;}
+
+#me {
+	display: block; 
+	position: absolute !important;
+	height: 40px; 
+	z-index:1000;
+	-webkit-transition: all 0.5s;
+	-moz-transition: all 0.5s;
+	-webkit-transform: rotate(180deg); 
+	-moz-transform: rotate(180deg); 
+	transform: rotate(180deg);
+	background: #eee;
+	padding: 3px;
+	box-shadow: 0 0 10px #41C9C6;
+	-webkit-border-radius: 50px;-moz-border-radius: 50px;border-radius: 50px;
+}
+#me:hover {	
+	-webkit-transform: scale(1.5) rotate(0deg); -moz-transform: scale(1.5)  rotate(0deg); transform: scale(1.5) rotate(0deg);
+}
+</style>
+</head>
+<body>
+<a href="http://www.weibo.com/qiaolevip" target="_blank"><img id="me" src="http://tp3.sinaimg.cn/1371186062/180/40003186387/1"></a>
+	<div class="main-container">
+		<div id="etcTools" class="etc-tools-div">
+			<ol>
+			  <li>格式化
+				 <ol>
+					<li><a href="http://sqlformat.org/">SQL</a></li>
+					<li><a href="http://jsbeautifier.org/">JS</a></li>
+					<li><a href="http://www.bejson.com/">JSON</a></li>
+					<li><a href="http://cssbeautify.com/">CSS</a></li>
+				 </ol>
+			  </li>
+			  <li>Beauty
+				 <ol>
+					<li><a href="http://nicolasgallagher.com/pure-css-folded-corner-effect/demo/">Note</a></li>
+					<li><a href="http://demo.tutorialzine.com/2010/10/css3-animated-bubble-buttons/css3-buttons.html">Buttons</a></li>
+					<li><a href="http://code.tutsplus.com/articles/create-a-sticky-note-effect-in-5-easy-steps-with-css3-and-html5--net-13934">Note</a></li>
+				 </ol>
+			  </li>
+			  <li>Css3
+				 <ol>
+					<li><a href="http://zurb.com/playground/css3-polaroids">Image</a></li>
+					<li><a href="color.html">Color</a></li>
+					<li><a href="https://medium.com/@ti_asif/200-best-free-tools-resources-for-front-end-web-developers-3fb3c415a643">Web Developers</a></li>
+					<li><a href="http://qiaole.sinaapp.com/">MyWeb</a></li>
+				 </ol>
+			  </li>
+        <li>Compare
+          <ol>
+            <li><a href="https://www.diffchecker.com/">diffchecker</a></li>
+            <li><a href="http://www.2gei.com/bgremover">bgremover</a></li>
+          </ol>
+        </li>
+        <li>Search
+          <ol>
+            <li><a href="google.html">GOOGLE</a></li>
+            <li><a href="http://www.tineye.com/">tineye</a></li>
+            <li><a href="http://www.picitup.com/">picitup</a></li>
+            <li><a href="http://www.spiderpic.com/">spiderpic</a></li>
+            <li><a href="http://stu.baidu.com/">百度识图</a></li>
+          </ol>
+        </li>
+		   </ol>
+		</div>
+		<div id="etcGeneratorTools" class="etc-tools-div">
+			<ol>
+			  <li>生成器
+				 <ol>
+					<li><a href="http://css-tricks.com/examples/ButtonMaker/#">按钮</a></li>
+					<li><a href="http://www.softicons.com/system-icons/lozengue-filetype-icons-by-gurato/xml-file-icon">LOGO</a></li>
+				 </ol>
+			  </li>
+			  <li>JSON
+				 <ol>
+					<li><a href="json.html">Parse JSON</a></li>
+					<li><a href="jsonp.html">AngularJS JSONP</a></li>
+					<li><a href="jsonq.html">jQuery JSONP</a></li>
+					<li><a href="http://each.sinaapp.com/wechat/url2text.php?http://www.cbooo.cn/boxOffice/getInland">PHP JSON</a></li>
+				 </ol>
+			  </li>
+			  <li>VPN
+				 <ol>
+					<li><a href="http://www.freevpnmac.com/macvpn/">macvpn</a></li>
+					<li><a href="http://www.freevpnworld.com/server/">No.1</a>&nbsp;&nbsp;&nbsp;<a href="http://www.freevpnworld.com/account/">No.2</a></li>
+          <li><a href="http://www.freevpn.cc/vpntunnel/">CANADA VPN</a></li>
+          <li><a href="http://www.freevpn.cc/account/">US VPN</a></li>
+					<li><a href="http://www.freevpn.cc/freevpn/">GERMAN VPN</a></li>
+					<li><a href="http://www.vpnour.com/free-vpn-account/">free-vpn-account</a></li>
+					<li><a href="http://www.vpnour.com/free-vpn-service/">free-vpn-service</a></li>
+					<li><a href="http://www.vpnour.com/free-vpn-server/">free-vpn-server</a></li>
+					<li><a href="http://www.vpnour.com/free-vpn-account-list.php">vpn-account-list</a></li>
+					<li><a href="http://www.freevpnservers.com/free-vpn-account/">freevpnservers</a></li>
+					<li><a href="http://www.freevpnservers.com/free-vpn-service/">free-vpn-service2</a></li>
+					<li><a href="http://bestvpnchina.com/vpn-china/">vpn-china</a></li>
+					<li><a href="http://wuliaovpn.com/">wuliaovpn</a></li>
+					<li><a href="http://www.freevpnonline.com/">freevpnonline</a></li>
+				 </ol>
+			  </li>
+		   </ol>
+		</div>
+		<table align="center" cellpadding="5" cellspacing="0" width="800" style="min-width:444px;">
+			<caption>学习永无止境-工具中心</caption>
+			<tbody>
+				<tr>
+					<td align="center"><a href="barcode.html"><img border="0" src="img/barcode.png"><span>条码生成器</span></a></td>
+					<td align="center"><a href="compare.html"><img border="0" src="img/compare.png"><span>文件比较器</span></a></td>
+				</tr>
+				<tr>
+					<td align="center"><a href="url.html"><img border="0" src="img/url.png"><span>URL编码/解码</span></a></td>
+					<td align="center"><a href="xml.html"><img border="0" src="img/xml.png"><span>XML内容提取器</span></a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			init();
+
+			/*$.ajax({
+				type: "POST",
+				url: "https://graph.qq.com/user/get_user_info",
+				data: "access_token=C69C8902086161C1F4376D6FD776E4BA&oauth_consumer_key=101147649&openid=7F7AE7353F41F6226283BD6B35604B17",
+				success: function(data){
+					console.log(data);
+				}
+			}); */
+
+		});
+
+		// 初始化函数
+		var init = function(){
+		}
+	</script>
+</body>
