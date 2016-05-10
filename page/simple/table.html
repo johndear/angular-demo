@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script src= "http://apps.bdimg.com/libs/angular.js/1.3.9/angular.min.js"></script>  
+</head>
+<body>
+
+<div ng-app="myApp" ng-controller="customersCtrl"> 
+<h3>AngularJS 过滤器</h3>
+
+<p>内容过滤：<input type="text" ng-model="test"></p>
+<table>
+   <tr ng-repeat="x in names | filter:test | orderBy : 'Country'">
+    <td>{{ $index + 1 }}</td>
+    <td ng-if="$odd" style="background-color:#f1f1f1">{{ x.Name }}</td>
+	<td ng-if="$even">{{ x.Name }}</td>
+	<td ng-if="$odd" style="background-color:#f1f1f1">{{ x.Country | uppercase }}</td>
+	<td ng-if="$even">{{ x.Country | uppercase }}</td>
+	<td>{{ x.Country | lowercase }}</td>
+  </tr>
+</table>
+
+<h3>currency 过滤器将数字格式化为货币格式：</h3><br>
+<input type="number" ng-model="quantity">
+<input type="number" ng-model="price">
+<p>总价 = {{ (quantity * price) | currency }}</p>
+
+</div>
+
+<script>
+var data = {"records":[ {"Name":"Alfreds Futterkiste","City":"Berlin","Country":"Germany"}, {"Name":"Ana Trujillo Emparedados y helados","City":"M茅xico D.F.","Country":"Mexico"}, {"Name":"Antonio Moreno Taquer铆a","City":"M茅xico D.F.","Country":"Mexico"}, {"Name":"Around the Horn","City":"London","Country":"UK"}, {"Name":"B's Beverages","City":"London","Country":"UK"}, {"Name":"Berglunds snabbk枚p","City":"Lule氓","Country":"Sweden"}, {"Name":"Blauer See Delikatessen","City":"Mannheim","Country":"Germany"}, {"Name":"Blondel p猫re et fils","City":"Strasbourg","Country":"France"}, {"Name":"B贸lido Comidas preparadas","City":"Madrid","Country":"Spain"}, {"Name":"Bon app'","City":"Marseille","Country":"France"}, {"Name":"Bottom-Dollar Marketse","City":"Tsawassen","Country":"Canada"}, {"Name":"Cactus Comidas para llevar","City":"Buenos Aires","Country":"Argentina"}, {"Name":"Centro comercial Moctezuma","City":"M茅xico D.F.","Country":"Mexico"}, {"Name":"Chop-suey Chinese","City":"Bern","Country":"Switzerland"}, {"Name":"Com茅rcio Mineiro","City":"S茫o Paulo","Country":"Brazil"}]};
+
+var app = angular.module('myApp', []);
+app.controller('customersCtrl', function($scope, $http) {
+    /* $http.get("../data/table.json")
+    .success(function (response) {$scope.names = response.records;}); */
+    
+	$scope.names = data.records;
+});
+</script>
+
+</body>
+</html>
+			

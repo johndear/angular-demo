@@ -1,0 +1,25 @@
+{
+  "name": "datatables-bootstrap",
+  "description": "DataTables enhances HTML tables with the ability to sort, filter and page the data in the table very easily. It provides a comprehensive API and set of configuration options, allowing you to consume data from virtually any data source.",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/DataTables/DataTables"
+  },
+  "main": [
+    "dataTables.bootstrap.js",
+    "dataTables.bootstrap.css"
+  ],
+  "dependencies": {
+    "datatables": "*"
+  },
+  "homepage": "https://github.com/cloudcms-components/datatables-bootstrap",
+  "_release": "680e1fbe96",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "680e1fbe9626ee1c9e4979a49471a4f155161833"
+  },
+  "_source": "git://github.com/cloudcms-components/datatables-bootstrap.git",
+  "_target": "*",
+  "_originalSource": "cloudcms-components/datatables-bootstrap"
+}

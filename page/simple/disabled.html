@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+	<script src= "http://apps.bdimg.com/libs/angular.js/1.3.9/angular.min.js"></script>
+</head>
+<body ng-app="">
+
+<div  ng-init="mySwitch=true">
+<p>
+<button ng-disabled="mySwitch">点我!</button>
+</p>
+<p>
+<input type="checkbox" ng-model="mySwitch"/>按钮   {{ mySwitch }}
+</p>
+</div> 
+
+<div>
+
+<p ng-show="mySwitch">我是可见的。</p>
+<p ng-hide="mySwitch">我是不可见的。</p>
+
+</div>
+
+<h3>表达式方式：</h3>
+<div>
+<input type="number" ng-model="hour">(注意：>12可见)
+<p ng-show="hour > 12">我是可见的。</p>
+<p ng-hide="hour > 12">我是不可见的。</p>
+</div>
+
+
+</body>
+</html>
+			

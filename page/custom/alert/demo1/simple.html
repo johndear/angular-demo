@@ -1,0 +1,51 @@
+
+Your name: <input type="text" ng-model="yourname" placeholder="World">
+        <hr>
+        Hello {{yourname || 'World'}}!
+
+
+        <div data-ng-app>
+        单价： <input type="number" min=0 ng-model="price" ng-init="price = 299">
+        <br>
+        数量： <input type="number" min=0 ng-model="quantity" ng-init="quantity = 1">
+        <br>
+        总价： {{ quantity * price }}
+    </div>
+
+<p>Date: <input type="text" id="datepicker"></p>
+   <input type="text" datepicker ng-model="myDateValue" />
+
+   <div ng-init="friends=[{name:'John', age:25},{name:'Mary', age:28}]">
+	    I have {{friends.length}} friends. They are:
+	    <ul>
+	        <li ng-repeat="friend in friends">
+	            [{{$index + 1}}] {{friend.name}} who is {{friend.age}} years old.
+	        </li>
+	    </ul>
+	</div>
+
+	<div ng-class="{ errorClass: isError, warningClass: isWarning, okClass: !isError && !isWarning }">...</div>
+
+	<div ng-show="!loggedIn">
+	    点击 <a href="#/login">这里</a> 登录
+	</div>
+
+	<div ng-include src="'/tpl2.html'"></div>
+
+
+	<div ng-controller="TestAlertCtrl">
+	  <button class='btn' ng-click="myAlert()">Add Alert</button>
+	  <button class='btn' ng-click="myConfirm()">Add Confirm</button>
+	</div>
+
+	<div ng-controller="TestDialogCtrl">
+		传入参数:<input ng-model="inputin" />
+		<button class='btn' ng-click="dialog()">Open dialog</button>
+		传出参数:<input ng-model="inputout" />
+	</div>
+
+	<script>
+  $(function() {
+    $( "#datepicker" ).datepicker();
+  });
+  </script>
