@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html ng-app="footballApp">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet"
+	href="../../public/bower_components/bootstrap/dist/css/bootstrap.css" />
+<script src="http://apps.bdimg.com/libs/angular.js/1.3.9/angular.min.js"></script>
+<script type="text/javascript" src="../../public/bower_components/jquery/dist/jquery.js"></script>
+<script type="text/javascript" src="highcharts.js"></script>
+
+<style type="text/css">
+table {
+	width: 100%;
+	border: 1px solid silver;
+	border-collapse: collapse;
+}
+
+table th, td {
+	border: 1px solid silver;
+	border-collapse: collapse;
+	padding: 3px;
+}
+</style>
+
+</head>
+<body ng-controller="MainCtrl">
+  <div class="container main-container">
+    <div class="jumbotron text-center">
+      <h1>2015年中超联赛积分榜</h1>
+    </div>
+    <table class="table table-bordered table-hover">
+      <tr>
+        <th class="text-center hover-effect" ng-repeat="(k, v) in cslTableHead" ng-class="{true: 'col-xs-2', false:'col-xs-1'}[$index == 1 || $index == 2]" ng-click="sortArrByKey(k)">
+          <label ng-bind="v"></label>
+          <span class="glyphicon glyphicon glyphicon-arrow-up" ng-show="sortArrKey == k && sortReverse"></span>
+          <span class="glyphicon glyphicon glyphicon-arrow-down" ng-show="sortArrKey == k && !sortReverse"></span>
+        </th>
+      </tr>
+      <tr class="text-center" ng-repeat="v in cslMatchList | orderBy: sortArrKey: sortReverse" ng-class="{'warning': v.active}">
+        <td ng-repeat="(key, val) in cslTableHead" ng-bind="v[key]" ng-class="{danger: key == 'team_order' && v.team_order == 1, info: key == 'team_order' && v.team_order == 2, success: key == 'team_order' && v.team_order == 3, 'hover-effect': key == 'team_cn'}" ng-click="jumpToMatch(key, v)"></td>
+      </tr>
+      <tr>
+        <th class="text-center hover-effect" ng-repeat="(k, v) in cslTableHead" ng-class="{true: 'col-xs-2', false:'col-xs-1'}[$index == 1 || $index == 2]" ng-click="sortArrByKey(k)">
+          <label ng-bind="v"></label>
+          <span class="glyphicon glyphicon glyphicon-arrow-up" ng-show="sortArrKey == k && sortReverse"></span>
+          <span class="glyphicon glyphicon glyphicon-arrow-down" ng-show="sortArrKey == k && !sortReverse"></span>
+        </th>
+      </tr>
+    </table>
+
+    <div id="matchScoreChar"></div>
+  </div>
+
+  <script type="text/javascript">
+    var app = angular.module('footballApp', []);
+    app.controller('MainCtrl', ['$scope', '$http', '$filter', function($scope, $http, $filter) {
+      $scope.cslTableHead = {
+        team_order: '名次',
+        team_cn: '队名',
+        score: '积分',
+        count: '场次',
+        win: '胜',
+        draw: '平',
+        lose: '负',
+        goal: '进球',
+        losegoal: '失球',
+        truegoal: '净胜球'
+      };
+
+      var drawScoreChar = function(data) {
+        var sortArrKey = $scope.sortArrKey;
+        data = $filter('orderBy')($scope.cslMatchList, sortArrKey, $scope.sortReverse);
+        var charData = [];
+        angular.forEach(data, function(v) {
+          charData.push({
+            name: v.team_cn,
+            y: v.score,
+            order: v.team_order
+          });
+        });
+        $('#matchScoreChar').highcharts({
+          chart: {
+            type: 'column'
+          },
+          title: {
+            text: '中超联赛积分榜图表(按' + $scope.cslTableHead[sortArrKey] + '排行)'
+          },
+          subtitle: {
+            text: '16支球队 14个城市 240轮赛程'
+          },
+          xAxis: {
+            type: 'category'
+          },
+          yAxis: {
+            title: {
+              text: ''
+            }
+          },
+          legend: {
+            enabled: false
+          },
+          plotOptions: {
+            series: {
+              borderWidth: 0,
+              dataLabels: {
+                enabled: true,
+                format: '{point.y}分'
+              }
+            }
+          },
+          tooltip: {
+            headerFormat: '',
+            pointFormat: '<span style="font-size:14px;color:{point.color}">{point.name}</span><br/>当前排名第<b>{point.order}</b> 积分：<b>{point.y}</b>分<br/>'
+          },
+          series: [{
+            name: 'name',
+            colorByPoint: true,
+            data: charData
+          }]
+        });
+      };
+
+      $scope.cslMatchList = [];
+      $scope.getMatchList = function() {
+        var curTeamInfo = decodeURIComponent(location.search.split('?')[1]);
+
+        var url = 'http://each.sinaapp.com/wechat/url2text.php?http://platform.sina.com.cn/sports_all/client_api?_sport_t_=football&_sport_s_=opta&_sport_a_=teamOrder&use_type=team&app_key=3571367214&type=213';
+        $http.get(url).then(function(res) {
+          var data = res.data.result.data;
+          angular.forEach(data, function(v) {
+            angular.forEach(v, function(val, k) {
+              if (/^-?\d+$/.test(val)) v[k] *= 1;
+            });
+            if (curTeamInfo == v.team_cn) v.active = true;
+            $scope.cslMatchList.push(v);
+          });
+          drawScoreChar();
+        });
+      };
+      $scope.getMatchList();
+
+      $scope.sortArrByKey = function(key) {
+        $scope.sortArrKey = key;
+        $scope.sortReverse = !$scope.sortReverse;
+      };
+      $scope.sortArrByKey('score');
+
+      $scope.jumpToMatch = function(key, v) {
+        if (key == 'team_cn') {
+          window.location.href = 'csl.html?' + v.team_cn;
+        }
+      };
+
+      $scope.$watch('sortArrKey+sortReverse', function(newVal, oldVal) {
+        if (newVal === oldVal) { return; }
+        drawScoreChar();
+      });
+
+    }]);
+
+    app.filter('sortArrFilter', [function() {
+      return function(arr, key, desc) {
+        return arr.sort(function(a, b) {
+          return desc ? (b[key] - a[key]) : (a[key] - b[key]);
+        });
+      };
+    }]);
+  </script>
+</body>
+</html>

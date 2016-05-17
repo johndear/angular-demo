@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html ng-app="NameApp">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet"
+	href="../../public/bower_components/bootstrap/dist/css/bootstrap.css" />
+<script src="http://apps.bdimg.com/libs/angular.js/1.3.9/angular.min.js"></script>
+<script src="./csl-data.js"></script>
+
+<style type="text/css">
+table {
+	width: 100%;
+	border: 1px solid silver;
+	border-collapse: collapse;
+}
+
+table th, td {
+	border: 1px solid silver;
+	border-collapse: collapse;
+	padding: 3px;
+}
+</style>
+
+</head>
+<body ng-controller="MainCtrl">
+		<h1 class="course-title">自定义过滤器</h1>
+		
+		<ul>
+		    <li ng-repeat="name in filterList | filter:lowercase">{{name}}</li>
+		</ul>
+
+		<div>
+			<h3>一、第一种过滤器：</h3><br/>
+			原有数据：{{names[0].name}}<br/>
+			过滤数据：{{names[0].name | filter1}}
+		</div>
+		
+		<div>
+			<h3>二、第二种带参数过滤器：</h3><br/>
+			原有数据：{{names[0].name}}<br/>
+			过滤数据：{{names[0].name | filter2:5 }}
+		</div>
+
+		<div>
+			<h3>三、第三种数组过滤器：</h3><br/>
+			<ul>
+				<li ng-repeat="word in ['aa','bb','vv','mm'] | filter3">{{word}}</li>
+			</ul>
+		</div>
+		
+		<div>
+			<h3>四、首字母大写过滤器：</h3><br/>
+			{{'this is angular js course on each.com' | filter4}}
+		</div>
+		
+</body>
+
+<script type="text/javascript">
+
+	var app = angular.module('NameApp', []);
+	app.controller('MainCtrl', function($scope){
+	    $scope.filterList=['currency','date','filter','json','limitTo', 'lowercase', 'number', 'orderBy', 'uppercase'];
+	    
+		$scope.names = [
+			{name: 'a乔乐', tel:'15800000000'},
+			{name: 'b周迅', tel:'18900000000'},
+			{name: 'c魏瑞', tel:'18900000000'},
+			{name: 'd展昭', tel:'19800000000'},
+			{name: 'd暖暖', tel:'15800000000'}
+		];
+	}).filter('filter1', function(){
+		return function(item){
+			return item + '[追加内容：单参数在此过滤！]';
+		}
+	}).filter('filter2', function(){
+		return function(item,num){
+			for(var i = 0;i < num;i++){
+				item = item + '!';
+			}
+			return item;
+		}
+	}).filter('filter3', function(){
+		return function(items){
+			angular.forEach(items,function(item, i){
+				item = i+'、'+ item + '===';
+				console.log(item);
+				items[i] = item;
+			});
+				console.log(items);
+			return items;
+		}
+	}).filter('filter4', function(){
+		return function(input) {
+			var words = input.split(' ');
+			for (var i = 0; i < words.length; i++) {
+			  words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1);
+			}
+			return words.join(' ');
+		}
+	});
+
+	</script>
+
+</html>

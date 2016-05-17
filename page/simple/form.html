@@ -4,8 +4,9 @@
 <meta charset="UTF-8">
 <link rel="stylesheet"
 	href="../../public/bower_components/bootstrap/dist/css/bootstrap.css" />
-<script src="http://apps.bdimg.com/libs/angular.js/1.3.9/angular.min.js"></script>
+<!-- <script src="http://apps.bdimg.com/libs/angular.js/1.3.9/angular.min.js"></script> -->
 <script src="./csl-data.js"></script>
+<script src="../../js/angular.1.2.9.min.js"></script>
 
 <style type="text/css">
 table {
@@ -19,6 +20,13 @@ table th, td {
 	border-collapse: collapse;
 	padding: 3px;
 }
+
+.big-bg {width: 800px; height: 30px; background-color: #6dc6ff; }
+.small-bg {width: 200px; height: 30px; background-color: #ff33ad; }
+.red_bg {background: #ff110e;}
+.blue_bg {background: #2d3bff;}
+.green_bg {background: #4bff2a;}
+
 </style>
 
 </head>
@@ -27,27 +35,53 @@ table th, td {
 		<a href="http://www.runoob.com/angularjs/angularjs-reference.html"
 			target="_blank">AngularJS 参考手册</a>
 	</h3>
-	<a href="http://www.runoob.com/angularjs/angularjs-bootstrap.html"
-		target="_blank">AngularJS教程</a>
+	<a href="http://each.sinaapp.com/angular/"
+		target="_blank">AngularJS在线教程</a>
 	<br>
 	<br>
+	
+	angular.js在线下载<br>
+Github-》   https://github.com/angular/angular.js<br>
+360CDN-》   http://libs.useso.com/js.php?path=angular.js<br>
+BOOTCDN-》   http://www.bootcdn.cn/angular.js/<br>
+新浪CDN-》   http://lib.sinaapp.com/?path=/angular.js<br>
+百度CDN-》   http://developer.baidu.com/wiki/index.php?title=docs/cplat/libs<br>
+<br>
+	
+	<div><h4>{{1+2+3}}</h4><span id="ctrlHere"> 这是手动初始化Angular的计算结果：{{1+2+3}}</span></div>
 	<br>
+	
 
 	<div ng-app="myApp" ng-controller="formCtrl">
+		<script id="rating.html">
+			<span tabindex="0">
+			    <span ng-repeat-start="r in range track by $index" class="sr-only">({{ $index < rate ? '*' : ' ' }})</span>
+			    <i ng-repeat-end ng-click="update($index + 1)" class="glyphicon" ng-class="$index < rate ? 'glyphicon-star' : 'glyphicon-star-empty'"></i>
+			</span>
+		</script>
+	
 		<fieldset>
 			<legend>表单字段</legend>
+			
+			<table class="table table-bordered">
+				<tr><th>序号</th><th>姓名</th><th>性别</th><th>年龄</th></tr>
+				<tr ng-repeat="user in users"><td>{{$index+1}}</td><td>{{user.name}}</td><td>{{user.sex}}</td><td>{{user.age}}</td></tr>
+			</table>
 
 			<form novalidate>
 				First Name:<br> <input type="text" ng-model="user.firstName"><br>
-				Last Name:<br> <input type="text" ng-model="user.lastName">
+				Last Name:<br> <input type="text" ng-model="user.lastName"><br />
+				E-mail:<br> <input type="email" ng-model="user.email"/>
 				<br>
-				<br> form = {{user }}<br> master = {{master}}<br> <br>
+				<br> <pre>form = {{user | json}}</pre><br> <pre>master = {{master | json}}</pre><br> <br>
 				<button ng-click="reset()">RESET</button>
 			</form>
 			<br>
-			<br> 姓名：<input type="text" ng-model="name"> <br>
-			性别：<input type="radio" name="sex" value="男" ng-model="sex">男
-			<input type="radio" name="sex" value="女" ng-model="sex">女 <br>
+			当前焦点：<font color="red">{{currFocus}}</font>
+			<br> 姓名：<input type="text" name="姓名" ng-model="user.name" ng-focus="getCurrFocus($event.target)"> <br>
+			年龄：<input type="text" name="年龄" ng-model="user.age" ng-focus="getCurrFocus($event.target)"> <br>
+			性别：<input type="radio" name="sex" value="男" ng-model="user.sex">男
+			<input type="radio" name="sex" value="女" ng-model="user.sex">女 <br>
 			兴趣： <input type="checkbox" name="interest" ng-model="interest1">游泳
 			<input type="checkbox" name="interest" ng-model="interest2">旅游
 			<input type="checkbox" name="interest" ng-model="interest3">打篮球
@@ -61,17 +95,82 @@ table th, td {
 							{name: '买衣服', no:'98'}
 							]">
 
-
 				<li ng-repeat="info in nameList | filter:nameText">{{$index+1}}、<input
 					type="checkbox" name="interest">{{info.name}} -
-					{{info.no}}
+					{{info.no}} {{$first}}-{{$middle}}-{{$last}}-{{$even}}-{{$odd}}
 				</li>
 			</ul>
 
 			姓名：{{name}}<br> 性别：{{sex}}<br> 兴趣爱好：{{interest1}}
 			{{interest2}} {{interest3}}
+			<br>
+			<h2>自定义log指令</h2>
+			<input type="button" ng-click="addNewPerson()" value="添加新用户" log/>(<font color="red">***</font>1、使用factory方式封装了对user的操作；2、自定义log指定，实现log效果，<a href="#">验证请查看console</a>)<br>
+			<input type="button" logging-click="addNewPerson()" value="添加新用户22"/>(<font color="red">***</font>3、自定义click事件,实现log效果)
+			
+			<br>
+			
+			评价：<rating rate="rate"></rating>(这个有问题参考：http://www.angular-tips.com/blog/2015/10/creating-a-rating-directive-in-angular-2/)
 		</fieldset>
+		
+		<h2>多级下拉列表</h2>
+		<div>
+		级联：
+		    <select ng-model="selectedPerson" ng-options="obj.name for obj in people"></select>
+		    <select ng-model="selectedGenre">
+		        <option ng-repeat="label in people[selectedPerson.id].interest">{{label}}</option>
+		    </select>
+		</div>
+		
+		<div>
+		基础下拉列表：
+		  <select ng-model="seleted" ng-options="a.name for a in animals">
+		    <option value="">请选择你的萌宠</option>
+		  </select>
+		</div>
+		<div>
+		自定义显示文本：
+		  <select ng-model="seleted" ng-options="(a.name + '爱吃' + a.food) for a in animals">
+		    <option value="">请选择你的萌宠</option>
+		  </select>
+		</div>
+		<div>
+		分组：
+		  <select ng-model="seleted" ng-options="(a.name + '的爱好是' + a.favor) group by a.sex for a in animals">
+		    <option value="">请选择你的萌宠</option>
+		  </select>
+		</div>
+		<div>
+		自定义ngModel的值：
+		  <select ng-model="seletedId" ng-options="a.id as a.name for a in animals">
+		    <option value="">请选择你的萌宠</option>
+		  </select><span ng-show="seletedId">选择的ID为：{{ seletedId }}</span>
+		</div>
 
+		<br>
+		<h2>动态样式</h2>
+		 <div>
+		            选择背景色：
+		            红色：<input type="checkbox" ng-model="chooseRed" />　
+		            蓝色：<input type="checkbox" ng-model="chooseBlue" />　
+		            绿色：<input type="checkbox" ng-model="chooseGreen" />
+		          </div>
+		          <div class="big-bg" ng-class="{'red_bg': chooseRed, 'blue_bg': chooseBlue, 'green_bg': chooseGreen}"></div>
+		          <div>
+		            单选背景色：
+		            红色：<input type="radio" ng-model="chooseBg" value="red_bg" />　
+		            蓝色：<input type="radio" ng-model="chooseBg" value="blue_bg" />　
+		            绿色：<input type="radio" ng-model="chooseBg" value="green_bg" />
+          </div>
+          <div class="big-bg"></div>
+          <div>
+			  选择背景色：
+			  <select ng-model="firstBgSet" ng-options="k as v for (k, v) in colorSet">
+			    <option value="">颜色列表</option>
+			  </select>
+			</div>
+			<div class="big-bg" ng-style="setBg(firstBgSet)"></div>
+			<div class="big-bg ng-style: {'background-color': 'gray'};"></div>
 		<br>
 
 		<table class="table table-bordered">
@@ -146,12 +245,88 @@ table th, td {
 		</div>
 
 	</div>
+	
+		
 
 
 
 	<script>
+		// 手动初始化
+		angular.element(document).ready(function() {
+			angular.bootstrap(angular.element(document.getElementById("ctrlHere")));
+		});
+	
 		var app = angular.module('myApp', []);
-		app.controller('formCtrl', function($scope) {
+		app.directive('log', function($log) {
+			  return {
+			    link: function(scope, element, attrs) {      
+			      element.bind('click', function() {
+			        scope.$apply(function() {
+			          $log.log("自定义指令11被触发，ng-click clicked");
+			        });
+			      });
+			    }
+			  };
+			});
+		
+		app.directive('loggingClick', function($parse, $log) {
+			  return function(scope, element, attrs) {
+				    var fn = $parse(attrs['loggingClick']);
+				    element.bind('click', function(event) {
+				      scope.$apply(function() {
+				    	  $log.log("自定义指令22被触发，ng-click clicked");
+				          fn(scope, {$event: event});
+				      });
+				    });
+				  };
+				});
+		
+		app.directive('ngClick', function($parse, $log) {
+		  return function(scope, element, attrs) {
+			    element.bind('click', function() {
+			      scope.$apply(function() {
+			        $log.log("重写ng-click指令");
+			      });
+			    });
+			  };
+			});
+
+		app.directive('rating', function() {
+			  return {
+				    scope: {
+				      rate: '='
+				    },
+				    templateUrl: 'rating.html',
+				    link: function(scope, element, attrs) {
+				      scope.range = [1,2,3,4,5];
+
+				      scope.update = function(value) {
+				        scope.rate = value;
+				      };
+				    }
+				  };
+				});
+		
+		app.factory('mainFactory', function(){
+			var factory = {};
+			var users = [
+				{name: 'a乔乐', age:'25', sex:'男'},
+				{name: 'b周迅', age:'40', sex:'女'},
+				{name: 'c魏瑞', age:'25', sex:'男'},
+				{name: 'd展昭', age:'98', sex:'男'}
+			];
+			factory.getUsers = function(){
+				return users;
+			};
+			// etc function
+			factory.addNewPerson = function(name,age,sex){
+				// 添加信息的用户
+				users.push({name: name, age: age, sex:sex});
+			};
+			return factory;
+		});
+		
+		app.controller('formCtrl', function($scope, mainFactory) {
 			$scope.master = {
 				firstName : "John",
 				lastName : "Doe"
@@ -220,9 +395,105 @@ table th, td {
 
 			$scope.uniqueRound = uniqueValueInArray(match2015Data, 'Round');
 			$scope.uniqueDate = uniqueValueInArray(match2015Data, 'date');
+			
+			$scope.people = [
+                    {
+                        id: 0,
+                        name: '乔乐',
+                        interest: [
+                            '爬山',
+                            '游泳',
+                            '旅游',
+                            '美食'
+                        ]
+                    },
+                    {
+                        id: 1,
+                        name: 'Chris',
+                        interest: [
+                            '音乐',
+                            '美食',
+                            'Coffee',
+                            '看书'
+                        ]
+                    },
+                    {
+                        id: 2,
+                        name: '魏瑞',
+                        interest: [
+                            '音乐',
+                            '电影',
+                            '中国好声音',
+                            '爸爸去哪了',
+                            '非常静距离'
+                        ]
+                    },
+                    {
+                        id: 3,
+                        name: '小飞子',
+                        interest: [
+                            '游泳',
+                            '游戏',
+                            '宅家里'
+                        ]
+                    }
+                ];
+			
+			 $scope.animals = [
+			                   {
+			                     id: '00001',
+			                     name: '猫',
+			                     sex: '雌',
+			                     food: '鱼',
+			                     favor: '玩球'
+			                   },
+			                   {
+			                     id: '00002',
+			                     name: '狗',
+			                     sex: '雄',
+			                     food: '骨头',
+			                     favor: '接盘子'
+			                   },
+			                   {
+			                     id: '00003',
+			                     name: '兔',
+			                     sex: '雌',
+			                     food: '胡萝卜',
+			                     favor: '刨洞'
+			                   },
+			                   {
+			                     id: '00004',
+			                     name: '狮',
+			                     sex: '雄',
+			                     food: '肉',
+			                     favor: '猎物'
+			                   }
+			                 ];
+			 
+			 $scope.setBg = function(color) {
+				    return { 'background': color };
+				  };
+				  $scope.colorSet = {
+				    red: '红色',
+				    blue: '蓝色',
+				    green: '绿色'
+				  };
+				  
+				$scope.users = mainFactory.getUsers();
+
+	      		$scope.addNewPerson = function(){
+	      			mainFactory.addNewPerson($scope.user.name,$scope.user.age,$scope.user.sex);
+	      			// 清空输入对象集合，也可清除单个对象：$scope.newPerson.name = '';
+	      			$scope.user = '';
+	      		}
+
+	      		$scope.getCurrFocus = function(target) {
+	      		    $scope.currFocus = target.getAttribute('name');
+	      		  };
 
 		});
-	</script>
 
+	</script>
+	
 </body>
 </html>
