@@ -1,7 +1,14 @@
-var myModule = angular.module("ZippyModule", []);
+var myModule = angular.module("ZippyModule", ['expanderModule']);
 myModule.controller("MyCtrl", function($scope) {
 	$scope.title = "这里是标题";
 	$scope.text = "这里是内容哇。。。";
+	
+	$scope.expanders = [
+	   {title:'test1', text: '中文1'},
+	   {title:'test2', text: '中文2'},
+	   {title:'test1', text: '中文1'},
+	   {title:'test2', text: '中文2'}
+	];
 });
 myModule.directive('zippy', function() {
 	return {

@@ -4,6 +4,7 @@
 		<meta charset="utf-8" />
 		<title></title>
 		<script type="text/javascript" src="http://apps.bdimg.com/libs/angular.js/1.5.0-beta.0/angular.js"></script>
+		<script type="text/javascript" src="js/directive/expander2.js"></script>
 		<script type="text/javascript" src="js/directive/expander.js"></script>
 		<style type="text/css">
 		    .zippy {
@@ -24,9 +25,33 @@
 		    .zippy > .body {
 		      padding: .1em .3em;
 		    }
+		    
+		    .expander{
+				border: 1px solid black;
+				width:250px;
+			}
+			.expander > .title{
+				background-color:black;
+				color:white;
+				padding: .1em .3em;
+				cursor: pointer;
+			}
+			.expander > .body{
+				padding: .1em .3em;
+			}
 		</style>
 	</head>
 	<body ng-controller="MyCtrl">
 		<div class="zippy" zippy-title="Details: {{title}}...">{{text}}</div>
+		
+		<br>
+		<br>
+		
+		<accordion>
+			<expander class="expander" ng-repeat="expander in expanders" expander-title="expander.title">
+				{{expander.text}}
+			</expander>
+		</accordion>
+		
 	</body>
 </html>

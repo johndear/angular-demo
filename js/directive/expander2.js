@@ -5,22 +5,28 @@ angular.module("expanderModule", [])
 		replace : true,
 		transclude : true,
 		template : '<div>' + 
-						'<div class="title">{{title}}</div>' + // 这个title属于当前directive isolate scope的property
-						'<div class="body" ng-transclude></div>' + // 这里的东西，获取的是父scope的property咯
+						'<div class="title" ng-click="toogle()">{{title}}</div>' + // 这个title属于当前directive isolate scope的property
+						'<div class="body" ng-show="opened" ng-transclude></div>' + // 这里的东西，获取的是父scope的property咯
 					'</div>',
+		require: '^?accordion',
 		scope : {
-			title : "@expanderTitle"// 绑定directive元素身上的zippy-title属性
+			title : "=expanderTitle"// 绑定directive元素身上的zippy-title属性
 		},
-		link : function(scope, element, attrs) {
-			var title = angular.element(element.children()[0]), opened = false;
+		link : function(scope, element, attrs, accordionController) {
+			//var title = angular.element(element.children()[0]);
+			scope.opened = false;
 
-			title.bind("click", toogle);
-			element.addClass("closed");
+			//title.bind("click", toogle);
+			//element.addClass("closed");
+			
+			accordionController.addExpander(scope);
 
-			function toogle() {
-				opened = !opened;
-				element.removeClass(opened ? "closed" : "opened");
-				element.addClass(opened ? "opened" : "closed");
+			scope.toogle = function () {
+				scope.opened = !scope.opened;
+				//element.removeClass(scope.opened ? "closed" : "opened");
+				//element.addClass(scope.opened ? "opened" : "closed");
+				
+				accordionController.gotOpened(scope);
 			}
 		}
 	};
@@ -37,10 +43,10 @@ angular.module("expanderModule", [])
 				expanders.push(expander);
 			}
 			
-			this.gotOpened = function(){
+			this.gotOpened = function(selectedExpander){
 				angular.forEach(expanders, function(expander){
 					if(selectedExpander != expander){
-						expander.showMe = false;
+						expander.opened = false;
 					}
 				});
 			}
@@ -49,21 +55,3 @@ angular.module("expanderModule", [])
 	
 });
 
-.expander{
-	border: 1px solid black;
-	width:250px;
-}
-.expander > .title{
-	backgroud-color:black;
-	color:white;
-	padding: .1em .3em;
-	cursor: pointer;
-}
-.expander > .body{
-	padding: .1em .3em;
-}
-<accordion>
-	<expander class="expander" ng-repeat="expander in expanders" expander-title="expander.title">
-		{{expander.text}}
-	</expander>
-</accordion>
