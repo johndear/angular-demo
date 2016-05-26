@@ -30,3 +30,16 @@
 	angularJs组件：
 		https://github.com/gianarb/awesome-angularjs 很棒的组件
 		http://angular-ui.github.io/bootstrap/ angularui-bootstrap组件
+开发工具
+	webstorm 
+		javascript开发工具， angular自动提示  web-server。js运行
+	hbuilder 
+		html5快速开发工具
+	google插件-Angular Debug： batarang
+	google插件-jsonview： JSON Formatter
+资源网：
+	icon http://www.softicons.com/
+	js   https://cdnjs.com/
+		 http://apps.bdimg.com/ 静态资源
+		 http://jsbin.com/	在线网页开发
+		 
