@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+		<script type="text/javascript" src="http://apps.bdimg.com/libs/angular.js/1.5.0-beta.0/angular.js"></script>
+		<script type="text/javascript" src="public/bower_components/fileupload/jquery.ui.widget.js"></script>
+		<script type="text/javascript" src="public/bower_components/fileupload/jquery.iframe-transport.js"></script>
+		<script type="text/javascript" src="public/bower_components/fileupload/jquery.fileupload.js"></script>
+		<script type="text/javascript" src="js/directive/fileupload.js"></script>
+	</head>
+	<body ng-controller="MyCtrl">
+		<input type="file" name="files[]" fileupload data-url="/server/uploadFile" multiple done="uploadFinished(e, data)"/>		
+	</body>
+	
+	<script>
+		var app = angular.module("myApp", ["fileuploadModule"]);
+		app.controller('MyCtrl', function($scope){
+			$scope.uploadFinished = function(e, data){
+				console.log('aafadfd');
+			}
+		});
+	</script>
+</html>
